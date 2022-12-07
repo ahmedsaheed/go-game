@@ -1,3 +1,4 @@
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter
 from PyQt6.QtWidgets import QApplication, QWidget
 
@@ -21,6 +22,13 @@ class GoBoard(QWidget):
             for col in range(self.size):
                 qp.drawRect(col * cell_size, row * cell_size,
                             cell_size, cell_size)
+                # add white and black color to the board
+                if (row + col) % 2 == 0:
+                    qp.fillRect(col * cell_size, row * cell_size,
+                                cell_size, cell_size, Qt.GlobalColor.white)
+                else:
+                    qp.fillRect(col * cell_size, row * cell_size,
+                                cell_size, cell_size, Qt.GlobalColor.black)
 
 
 if __name__ == '__main__':
