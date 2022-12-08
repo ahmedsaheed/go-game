@@ -31,8 +31,3 @@ class GoBoard(QWidget):
                                 cell_size, cell_size, Qt.GlobalColor.black)
 
 
-if __name__ == '__main__':
-    app = QApplication([])
-    board = GoBoard()
-    board.show()
-    app.exec()

@@ -1,9 +1,11 @@
 from PyQt6.QtWidgets import QApplication
-from go import Go
 from go_board import GoBoard
+from go_balls import GoBall
 import sys
 
 app = QApplication([])
-#myGo = Go()
 newBoard = GoBoard()
+newBoard.show()
+balls = GoBall()
+balls.show()
 sys.exit(app.exec())
