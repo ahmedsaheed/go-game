@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QApplication, QWidget
 
 
 class GoBoard(QWidget):
-    def __init__(self, size=19):
+    def __init__(self, size=7):
         super().__init__()
         self.size = size
         self.setFixedSize(600, 600)
