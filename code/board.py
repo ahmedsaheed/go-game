@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QFrame
-from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal, QPointF
-from PyQt6.QtGui import QPainter
+from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal, QPointF, QPoint
+from PyQt6.QtGui import QPainter, QBrush, QColor
 from PyQt6.QtTest import QTest
 from piece import Piece
 
@@ -10,10 +10,10 @@ class Board(QFrame):  # base the board on a QFrame widget
     clickLocationSignal = pyqtSignal(str)  # signal sent when there is a new click location
 
     # TODO set the board width and height to be square
-    boardWidth = 0  # board is 0 squares wide # TODO this needs updating
-    boardHeight = 0  #
-    timerSpeed = 1  # the timer updates every 1 millisecond
-    counter = 10  # the number the counter will count down from
+    boardWidth = 7  # board width set to 7
+    boardHeight = 7  # board height set to 7
+    timerSpeed = 1000  # the timer updates every 1 second
+    counter = 90 # countdown set to 90 seconds
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -28,8 +28,8 @@ class Board(QFrame):  # base the board on a QFrame widget
         self.isStarted = False  # game is not currently started
         self.start()  # start the game which will start the timer
 
-        self.boardArray = []  # TODO - create a 2d int/Piece array to store the state of the game
-        # self.printBoardArray()    # TODO - uncomment this method after creating the array above
+        self.boardArray = [[Piece(Piece.NoPiece,i,j) for i in range(self.boardWidth)] for j in range(self.boardHeight)]  #2d array that stores the state of the game
+        self.printBoardArray()  # TODO - uncomment this method after creating the array above
 
     def printBoardArray(self):
         """prints the boardArray in an attractive way"""
@@ -69,8 +69,8 @@ class Board(QFrame):  # base the board on a QFrame widget
 
     def paintEvent(self, event):
         """paints the board and the pieces of the game"""
-        # painter = QPainter(self)
-        # self.drawBoardSquares(painter)
+        painter = QPainter(self)
+        self.drawBoardSquares(painter)
         # self.drawPieces(painter)
 
     def mousePressEvent(self, event):
@@ -90,16 +90,29 @@ class Board(QFrame):  # base the board on a QFrame widget
 
     def drawBoardSquares(self, painter):
         """draw all the square on the board"""
-        # TODO set the default colour of the brush
+        # setting the default colour of the brush
+        color1 = QColor(209, 179, 141)  # yellowish brown
+        color2 = QColor(196, 164, 132)  # light brown color
+        brush = QBrush(Qt.BrushStyle.SolidPattern)  # calling SolidPattern to a variable
+        brush.setColor(color1)  # setting color to black
+        painter.setBrush(brush)
         for row in range(0, Board.boardHeight):
             for col in range(0, Board.boardWidth):
                 painter.save()
-                colTransformation = self.squareWidth() * col  # TODO set this value equal the transformation in the column direction
-                rowTransformation = 0  # TODO set this value equal the transformation in the row direction
+                colTransformation = self.squareWidth() * col  # setting this value equal the transformation in the
+                # column direction
+                rowTransformation = self.squareHeight() * row  # setting this value equal the transformation in the
+                # row direction
                 painter.translate(colTransformation, rowTransformation)
-                painter.fillRect()  # TODO provide the required arguments
+                painter.fillRect(col, row, round(self.squareWidth()), round(self.squareHeight()), brush) # passing
+                # the above variables and methods as a parameter
                 painter.restore()
-                # TODO change the colour of the brush so that a checkered board is drawn
+
+                # changing the colour of the brush so that a checkered board is drawn
+                if brush.color() == color1:  # if the brush color of square is color1
+                    brush.setColor(color2)  # set the next color of the square to color2
+                else:  # if the brush color of square is color2
+                    brush.setColor(color1)  # set the next color of the square to color1
 
     def drawPieces(self, painter):
         """draw the prices on the board"""
@@ -107,11 +120,24 @@ class Board(QFrame):  # base the board on a QFrame widget
         for row in range(0, len(self.boardArray)):
             for col in range(0, len(self.boardArray[0])):
                 painter.save()
-                painter.translate()
+                ''' the string translate() method returns a string where each row and col is mapped to 
+                its corresponding character in the translation table '''
+                painter.translate(((self.squareWidth()) * row) + self.squareWidth() / 2,
+                                  (self.squareHeight()) * col + self.squareHeight() / 2)
+                color = QColor(0, 0, 0)  #  color set to unspecified
 
-                # TODO draw some the pieces as ellipses
-                # TODO choose your colour and set the painter brush to the correct colour
-                radius = self.squareWidth() / 4
-                center = QPointF(radius, radius)
+                if self.boardArray[col][row].Piece == Piece.NoPiece:  # if piece in array == 0
+                    color = QColor(Qt.GlobalColor.transparent)  # color is transparent
+
+                elif self.boardArray[col][row].Piece == Piece.Black:  # if piece in array == 1
+                    color = QColor(Qt.GlobalColor.black)  # set color to black
+
+                elif self.boardArray[col][row].Piece == Piece.White:  # if piece in array == 2
+                    color = QColor(Qt.GlobalColor.white)  # set color to white
+
+                painter.setPen(color)  # set pen color to painter
+                painter.setBrush(color)  # set brush color to painter
+                radius = (self.squareWidth()) / 2
+                center = QPoint(radius, radius)
                 painter.drawEllipse(center, radius, radius)
                 painter.restore()
