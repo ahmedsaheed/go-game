@@ -13,7 +13,7 @@ class Board(QFrame):  # base the board on a QFrame widget
     boardWidth = 7  # board width set to 7
     boardHeight = 7  # board height set to 7
     timerSpeed = 1000  # the timer updates every 1 second
-    counter = 90 # countdown set to 90 seconds
+    counter = 90  # countdown set to 90 seconds
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -28,7 +28,8 @@ class Board(QFrame):  # base the board on a QFrame widget
         self.isStarted = False  # game is not currently started
         self.start()  # start the game which will start the timer
 
-        self.boardArray = [[Piece(Piece.NoPiece,i,j) for i in range(self.boardWidth)] for j in range(self.boardHeight)]  #2d array that stores the state of the game
+        self.boardArray = [[Piece(Piece.NoPiece, i, j) for i in range(self.boardWidth)] for j in
+                           range(self.boardHeight)]  # 2d array that stores the state of the game
         self.printBoardArray()  # TODO - uncomment this method after creating the array above
 
     def printBoardArray(self):
@@ -104,7 +105,7 @@ class Board(QFrame):  # base the board on a QFrame widget
                 rowTransformation = self.squareHeight() * row  # setting this value equal the transformation in the
                 # row direction
                 painter.translate(colTransformation, rowTransformation)
-                painter.fillRect(col, row, round(self.squareWidth()), round(self.squareHeight()), brush) # passing
+                painter.fillRect(col, row, round(self.squareWidth()), round(self.squareHeight()), brush)  # passing
                 # the above variables and methods as a parameter
                 painter.restore()
 
@@ -124,7 +125,7 @@ class Board(QFrame):  # base the board on a QFrame widget
                 its corresponding character in the translation table '''
                 painter.translate(((self.squareWidth()) * row) + self.squareWidth() / 2,
                                   (self.squareHeight()) * col + self.squareHeight() / 2)
-                color = QColor(0, 0, 0)  #  color set to unspecified
+                color = QColor(0, 0, 0)  # color set to unspecified
 
                 if self.boardArray[col][row].Piece == Piece.NoPiece:  # if piece in array == 0
                     color = QColor(Qt.GlobalColor.transparent)  # color is transparent
