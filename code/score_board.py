@@ -33,7 +33,7 @@ class ScoreBoard(QDockWidget):
     def make_connection(self, board):
         '''this handles a signal sent from the board class'''
         # when the clickLocationSignal is emitted in board the setClickLocation slot receives it
-        board.clickLocationSignal.connect(self.setClickLocation)
+        # board.clickLocationSignal.connect(self.setClickLocation)
         # when the updateTimerSignal is emitted in the board the setTimeRemaining slot receives it
         board.updateTimerSignal.connect(self.setTimeRemaining)
 

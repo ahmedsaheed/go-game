@@ -1,5 +1,5 @@
 # TODO: Add more functions as needed for your Pieces
-class Piece(object):
+class Piece:
     NoPiece = 0
     White = 1
     Black = 2

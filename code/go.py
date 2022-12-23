@@ -1,14 +1,17 @@
 from PyQt6 import QtCore
 from PyQt6.QtGui import QAction, QIcon
-from PyQt6.QtWidgets import QMainWindow, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QMessageBox, QDockWidget, QWidget
 from PyQt6.QtCore import Qt
-from board import Board
+from code.board import Board
 from score_board import ScoreBoard
+
 
 class Go(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.board = None
+        self.scoreBoard = None
         self.initUI()
 
     def getBoard(self):
@@ -20,15 +23,23 @@ class Go(QMainWindow):
     def initUI(self):
         '''initiates application UI'''
         self.board = Board(self)
+        # add padding to the board
+        self.board.setContentsMargins(10, 10, 10, 10)
         self.setCentralWidget(self.board)
         self.scoreBoard = ScoreBoard()
-        self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.scoreBoard)
+        self.scoreBoard.setContentsMargins(10, 10, 10, 10)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.scoreBoard)
+        # remove the dock title bar
+        self.scoreBoard.setTitleBarWidget(QWidget())
+        # make the dock widget unmovable
+        self.scoreBoard.setFeatures(QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+        self.scoreBoard.setMaximumWidth(150)
         self.scoreBoard.make_connection(self.board)
-
         self.resize(800, 800)
+        self.setMinimumSize(800, 700)
         self.center()
         self.setWindowTitle('Go')
-        self.menu()  # display menu bar
+
         self.show()
 
     def center(self):
@@ -38,8 +49,8 @@ class Go(QMainWindow):
 
         gr.moveCenter(screen)
         self.move(gr.topLeft())
-        #size = self.geometry()
-        #self.move((screen.width() - size.width()) / 2,(screen.height() - size.height()) / 2)
+        # size = self.geometry()
+        # self.move((screen.width() - size.width()) / 2,(screen.height() - size.height()) / 2)
 
     def menu(self):
         # set up menus
@@ -75,6 +86,7 @@ class Go(QMainWindow):
         exitAction.setShortcut("Ctrl+E")  # set shortcut
         exitMenu = mainMenu.addAction(exitAction)
         exitAction.triggered.connect(self.exit)
+        mainMenu.show()
 
         # help message display rules
 
@@ -92,9 +104,8 @@ class Go(QMainWindow):
             "first. Note that stones are placed on the intersections of the lines rather than in the squares and once "
             "played stones are not moved. However they may be captured, in which case they are removed from the "
             "board, and kept by the capturing player as prisoners.</p> "
-           
-            "<br><strong> press ( Ctrl + E ) or Exit <br>"
 
+            "<br><strong> press ( Ctrl + E ) or Exit <br>"
 
         )
         msg.setWindowTitle("Help")
@@ -118,4 +129,3 @@ class Go(QMainWindow):
         if self.getBoard().passEvent():  # link to board to count passcount and change turn
             self.close()
         self.update()
-
