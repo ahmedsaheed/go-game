@@ -3,6 +3,5 @@ from go import Go
 import sys
 
 app = QApplication([])
-go = Go()
-go.show()
+myGo = Go()
 sys.exit(app.exec())

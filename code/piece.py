@@ -9,21 +9,16 @@ class Piece:
     y = -1
 
     def __init__(self, Piece, x, y):  # constructor
-        self.libs = None
-        self.Status = Piece
+        self.Piece = Piece
         self.liberties = 0
         self.x = x
         self.y = y
 
     def getPiece(self):  # return PieceType
-        return self.Status
+        return self.Piece
 
     def getLiberties(self):  # return Liberties
-        self.libs = self.liberties
-        return self.libs
-
-    def setLiberties(self, liberties):  # set Liberties
-        self.liberties = liberties
+        return self.liberties
 
     def setLiberties(self, liberties):  # set Liberties
         self.liberties = liberties

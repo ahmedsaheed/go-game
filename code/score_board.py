@@ -1,9 +1,8 @@
-from PyQt6.QtWidgets import QDockWidget, QVBoxLayout, QWidget, QLabel
-#TODO import additional Widget classes as desired
+from PyQt6.QtWidgets import QDockWidget, QVBoxLayout, QWidget, QLabel #TODO import additional Widget classes as desired
 from PyQt6.QtCore import pyqtSlot
 
 class ScoreBoard(QDockWidget):
-    """# base the score_board on a QDockWidget"""
+    '''# base the score_board on a QDockWidget'''
 
     def __init__(self):
         super().__init__()
@@ -33,7 +32,7 @@ class ScoreBoard(QDockWidget):
     def make_connection(self, board):
         '''this handles a signal sent from the board class'''
         # when the clickLocationSignal is emitted in board the setClickLocation slot receives it
-        # board.clickLocationSignal.connect(self.setClickLocation)
+        board.clickLocationSignal.connect(self.setClickLocation)
         # when the updateTimerSignal is emitted in the board the setTimeRemaining slot receives it
         board.updateTimerSignal.connect(self.setTimeRemaining)
 
@@ -50,4 +49,3 @@ class ScoreBoard(QDockWidget):
         self.label_timeRemaining.setText(update)
         print('slot '+update)
         # self.redraw()
-
