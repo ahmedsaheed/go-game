@@ -1,55 +1,47 @@
 from piece import Piece
 
+
 class Balls(object):
     Piece = Piece.NoPiece
     liberties = 0
     x = -1
     y = -1
 
-
-    def __init__(self, Piece,x,y):  # a contstuctor initialising variables
+    def __init__(self, Piece, x, y):
         self.Piece = Piece
         self.liberties = 0
         self.x = x
         self.y = y
 
-    def getPiece(self): # a methoad to return Piece
+    def getPiece(self):
         return self.Piece
 
-
-    def getLiberties(self): # a method to return Liberties
+    def getLiberties(self):
         return self.liberties
 
+    def setLiberties(self, liberties):
+        self.liberties = liberties
 
-    def setLiberties(self,liberties):   # a method to set Liberties
-        self.liberties =liberties
-
-
-    def getup(self,boardArray):
+    def getup(self, boardArray):
         if self.y == 0:
             return None
-        else :
-            return boardArray[self.y-1][self.x] # move y coordinate upwards
+        else:
+            return boardArray[self.y - 1][self.x]
 
-
-    def getright(self,boardArray):
+    def getright(self, boardArray):
         if self.x == 6:
             return None
-        else :
-            return boardArray[self.y][self.x+1] # move x coordinate to the right
+        else:
+            return boardArray[self.y][self.x + 1]
 
-
-    def getleft(self,boardArray):
+    def getleft(self, boardArray):
         if self.x == 0:
             return None
-        else :
-            return boardArray[self.y][self.x-1] # move x coordinate to the left
+        else:
+            return boardArray[self.y][self.x - 1]
 
-
-    def getdown(self,boardArray):
+    def getdown(self, boardArray):
         if self.y == 6:
             return None
-        else :
-            return boardArray[self.y+1][self.x] # move y coordinate to downwards
-
-
+        else:
+            return boardArray[self.y + 1][self.x]

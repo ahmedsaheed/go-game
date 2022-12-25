@@ -50,7 +50,7 @@ class Go(QMainWindow):
             self.getBoard().resetGame()
             self.update()
         if event.key() == QtCore.Qt.Key.Key_P:
-            if self.getBoard().passEvent():
+            if self.getBoard().skipTurn():
                 self.close()
             self.update()
 

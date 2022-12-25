@@ -24,7 +24,7 @@ class GameLogic:
         self.Ypos = ypos
         self.boardArray = boardArray
 
-    def checkvacant(self):
+    def postionNotOccupied(self):
         # check if the position is vacant or not
         if self.boardArray[self.Ypos][self.Xpos].Piece == Piece.NoPiece:
             return True
@@ -123,7 +123,7 @@ class GameLogic:
             self.boardArray[ypos][xpos] = Balls(Piece.NoPiece, xpos, ypos)
             return "Black Stone Captured at x: " + str(xpos) + ", y: " + str(ypos)
 
-    def checkforSuicide(self):
+    def isBadMove(self):
         oppositeplayer = Piece.NoPiece
         if self.turn == Piece.Black:
             oppositeplayer = Piece.White

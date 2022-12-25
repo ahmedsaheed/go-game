@@ -67,14 +67,14 @@ class ScoreBoard(QDockWidget):
     def make_connection(self, board):
         '''this handles a signal sent from the board class'''
         # when the clickLocationSignal is emitted in board the setClickLocation slot receives it
-        board.clickLocationSignal.connect(self.setClickLocation)
+        board.listenToClick.connect(self.setClickLocation)
         # when the updateTimerSignal is emitted in the board the setTimeRemaining slot receives it
-        board.updateTimerSignal.connect(self.setTimeRemaining)
+        board.listenToTime.connect(self.setTimeRemaining)
         # when the updatePrionersSignal is emitted in the board the updatePrisoners slot receives it
-        board.updatePrionersSignal.connect(self.updatePrisoners)
-        board.updateTerritoriesSignal.connect(self.updateTerritories)
-        board.showNotificationSignal.connect(self.displaynotification)
-        board.displaychangeturnSignal.connect(self.updateturn)
+        board.captives.connect(self.updatePrisoners)
+        board.territories.connect(self.updateTerritories)
+        board.notifier.connect(self.displaynotification)
+        board.playerTurn.connect(self.updateturn)
 
     @pyqtSlot(str)  # checks to make sure that the following slot is receiving an argument of the type 'int'
     def setClickLocation(self, clickLoc):
