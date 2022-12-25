@@ -1,7 +1,7 @@
 from collections import namedtuple
 from copy import copy
 
-from PyQt6.QtWidgets import QFrame, QStatusBar
+from PyQt6.QtWidgets import QFrame, QStatusBar, QMessageBox
 from PyQt6.QtCore import Qt, QBasicTimer, pyqtSignal, QPoint
 from PyQt6.QtGui import QPainter, QBrush, QColor
 from piece import Piece
@@ -110,14 +110,12 @@ class Board(QFrame):
         ypos = event.position().y()
         xcoordinate = xpos / self.squareWidth()  # setting up x & y coordinates
         ycoordinate = ypos / self.squareHeight()
-        ''' The round() method returns the floating point number rounded off to the given ndigits
-         digits after the decimal point. If no ndigits is provided, it rounds off the number to the 
-         nearest integer.'''
+
         xp = round(xcoordinate) - 1
         yp = round(ycoordinate) - 1
 
         self.gamelogic.updateparams(self.boardArray, xp, yp)  # passing parameters to update current variables.
-        if (self.canWePlaceBallAtChosenPosition()):  # if move is not suicide
+        if self.canWePlaceBallAtChosenPosition():  # if move is not suicide
             self.placeStone()  # place the stone on the board
             self.updateTerritoriesAndCaptives()  # update prisoner & territory if any
         self.update()
@@ -319,13 +317,19 @@ class Board(QFrame):
         self.notifier.emit(message)
 
     def resetGame(self):
-        # Roll back to the initial state of the game
-        print("Game Reseted")
+        '''clears pieces from the board'''
+        print("Game Reset")
+        msg = QMessageBox(self)
+        msg.setText("Game Reset")
         self.boardArray = [[Balls(Piece.NoPiece, i, j) for i in range(self.boardWidth)] for j in
                            range(self.boardHeight)]
-        self.gamelogic.captiveIsBlack = 0
-        self.gamelogic.captiveIsWhite = 0
-        self.gamelogic.turn = Piece.White
+        self.gamelogic.whiteprisoners = 0  # set captured to 0
+        self.gamelogic.blackprisoners = 0  # set captured to 0
+        self.gamelogic.whiteterritories = 0  # set territories to 0
+        self.gamelogic.blackterritories = 0  # set territories to 0
+        self.gamelogic.turn = Piece.Black
+        self.playerTurn.emit(self.gamelogic.turn)
+
 
     def skipTurn(self):
         self.notifyUser("Move Passed")
