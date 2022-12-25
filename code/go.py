@@ -17,6 +17,7 @@ class Go(QMainWindow):
     def getBoard(self):
         return self.board
 
+
     def getScoreBoard(self):
         return self.scoreBoard
 
@@ -29,7 +30,10 @@ class Go(QMainWindow):
         self.scoreBoard.make_connection(self.board)
         self.statusBar = QStatusBar()
         self.setStatusBar(self.statusBar)
-        self.resize(900, 900)
+        self.minimumHeight()
+        self.resize(850, 850)
+        self.setMinimumWidth(750)
+        self.setMinimumHeight(650)
         self.center()
         self.setWindowTitle('Go')
         self.show()

@@ -121,25 +121,30 @@ class Board(QFrame):
         self.update()
 
     def drawBoardSquares(self, painter):
-        # Create the board
-
-        brush = QBrush(Qt.BrushStyle.SolidPattern)
-        brush.setColor(QColor(209, 179, 141))
+        """draw all the square on the board"""
+        # setting the default colour of the brush
+        color = QColor(209, 179, 141)  # yellowish brown
+        # color2 = QColor(196, 164, 132)  # light brown color
+        brush = QBrush(Qt.BrushStyle.SolidPattern)  # calling SolidPattern to a variable
+        brush.setColor(color)  # setting color to yellowish brown
         painter.setBrush(brush)
-
         for row in range(0, Board.boardHeight):
             for col in range(0, Board.boardWidth):
                 painter.save()
-                x = self.squareWidth() * col
-                y = self.squareHeight() * row
-                painter.translate(x, y)
-                painter.fillRect(col, row, round(self.squareWidth()), round(self.squareHeight()),
-                                 brush)
+                colTransformation = self.squareWidth() * col  # setting this value equal the transformation in the
+                # column direction
+                rowTransformation = self.squareHeight() * row  # setting this value equal the transformation in the
+                # row direction
+                painter.translate(colTransformation, rowTransformation)
+                painter.fillRect(col, row, round(self.squareWidth()), round(self.squareHeight()), brush)  # passing
+                # the above variables and methods as a parameter
                 painter.restore()
-                if brush.color() == QColor(209, 179, 141):
-                    brush.setColor(QColor(196, 164, 132))
-                else:
-                    brush.setColor(QColor(209, 179, 141))
+
+                # changing the colour of the brush so that a checkered board is drawn
+                if brush.color() == color:  # if the brush color of square is color
+                    brush.setColor(color)  # set the next color of the square to color2
+                else:  # if the brush color of square is color2
+                    brush.setColor(color)  # set the next color of the square to color
 
     def drawPieces(self, painter):
         # Draw the pieces
@@ -163,9 +168,10 @@ class Board(QFrame):
                 painter.setPen(color)
                 painter.setBrush(color)
 
-                radius = (self.squareWidth() - 2) / 2
+                radius = self.squareWidth() / 2
                 center = QPoint(round(radius), round(radius))
-                painter.drawEllipse(center, round(radius), round(radius))
+
+                painter.drawEllipse(center, radius, radius)
                 painter.restore()
 
     def canWePlaceBallAtChosenPosition(self):
@@ -184,7 +190,7 @@ class Board(QFrame):
         self.gamelogic.plotTheBalls()  # place the stone on the board
         self.gamelogic.updateLiberty()  # update the liberties
         message = self.gamelogic.updateCaptivesTheSecond()
-        if (message != None):  # if no liberties left of the neighbouring stones
+        if message is not None:  # if no liberties left of the neighbouring stones
             self.notifyUser(message)
             print("Stone captured")
             self.gamelogic.updateLiberty()  # update the liberties again in case of capture
@@ -319,8 +325,7 @@ class Board(QFrame):
     def resetGame(self):
         '''clears pieces from the board'''
         print("Game Reset")
-        msg = QMessageBox(self)
-        msg.setText("Game Reset")
+        self.notifyUser("Game Reset")
         self.boardArray = [[Balls(Piece.NoPiece, i, j) for i in range(self.boardWidth)] for j in
                            range(self.boardHeight)]
         self.gamelogic.whiteprisoners = 0  # set captured to 0
@@ -329,7 +334,6 @@ class Board(QFrame):
         self.gamelogic.blackterritories = 0  # set territories to 0
         self.gamelogic.turn = Piece.Black
         self.playerTurn.emit(self.gamelogic.turn)
-
 
     def skipTurn(self):
         self.notifyUser("Move Passed")

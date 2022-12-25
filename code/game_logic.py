@@ -145,7 +145,8 @@ class GameLogic:
             count = count + 1
 
         if count == 4:  # this means all side are of opposite color or end of board
-            # now checking if any of the neighbours have a single liberty, if they do then by placing this stone, their liberties would turn to zero so it wont be suicide
+            # now checking if any of the neighbours have a single liberty, if they do then by placing this stone,
+            # their liberties would turn to zero so it wont be suicide
             if self.boardArray[self.Ypos][self.Xpos].getup(self.boardArray) is not None and self.boardArray[self.Ypos][
                 self.Xpos].getup(self.boardArray).liberties == 1:
                 return False
