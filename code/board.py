@@ -183,13 +183,13 @@ class Board(QFrame):
             return False
 
     def placeStone(self):
-        self.gamelogic.placestone()  # place the stone on the board
-        self.gamelogic.updateLiberties()  # update the liberties
-        message = self.gamelogic.updatecaptures2()
+        self.gamelogic.plotTheBalls()  # place the stone on the board
+        self.gamelogic.updateLiberty()  # update the liberties
+        message = self.gamelogic.updateCaptivesTheSecond()
         if (message != None):  # if no liberties left of the neighbouring stones
             self.notifyUser(message)
             print("Stone captured")
-            self.gamelogic.updateLiberties()  # update the liberties again in case of capture
+            self.gamelogic.updateLiberty()  # update the liberties again in case of capture
 
         self.gamelogic.updateTeritories()  # update territories
         self.__addCurrentStateToGlobalState__()  # push it to the history list
@@ -200,14 +200,14 @@ class Board(QFrame):
         else:
 
             if self.gamelogic.turn == Piece.White:  # revert back the White prisoner count
-                self.gamelogic.whiteprisoners = self.gamelogic.whiteprisoners - 1
+                self.gamelogic.captiveIsWhite = self.gamelogic.captiveIsWhite - 1
 
             else:  # # revert back the Black prisoner count
-                self.gamelogic.blackprisoners = self.gamelogic.blackprisoners - 1
+                self.gamelogic.captiveIsBlack = self.gamelogic.captiveIsBlack - 1
             # revert back the board to previous state
             self.__removeFromGlobalState__(self.__gameState__[-2])
             # uodate the liberties and territories
-            self.gamelogic.updateLiberties()
+            self.gamelogic.updateLiberty()
             self.gamelogic.updateTeritories()
             # push this state to history
             self.__addCurrentStateToGlobalState__()
@@ -288,7 +288,7 @@ class Board(QFrame):
 
     def changeturn(self):
         # Change the turn to next player and send update interface
-        self.gamelogic.changeturn()
+        self.gamelogic.toggleTurns()
         self.counter = 120
         self.playerTurn.emit(self.gamelogic.turn)
 
@@ -301,8 +301,8 @@ class Board(QFrame):
     def whoIsTheWinner(self):
         # Compare both players score
         # Is game a draw or is there a winner ?
-        blackscore = self.gamelogic.getScore(Piece.Black)
-        whitescore = self.gamelogic.getScore(Piece.White)
+        blackscore = self.gamelogic.returnTheScores(Piece.Black)
+        whitescore = self.gamelogic.returnTheScores(Piece.White)
         self.notifyUser("Scores : \n Black :" + str(blackscore) + "\n White : " + str(
             whitescore))  # a notification for Black and White score
         if blackscore > whitescore:
@@ -313,7 +313,7 @@ class Board(QFrame):
             self.notifyUser("Game is a Draw")
 
     def getScore(self, Piece):
-        return self.gamelogic.getScore(Piece)
+        return self.gamelogic.returnTheScores(Piece)
 
     def notifyUser(self, message):
         self.notifier.emit(message)
@@ -323,14 +323,14 @@ class Board(QFrame):
         print("Game Reseted")
         self.boardArray = [[Balls(Piece.NoPiece, i, j) for i in range(self.boardWidth)] for j in
                            range(self.boardHeight)]
-        self.gamelogic.blackprisoners = 0
-        self.gamelogic.whiteprisoners = 0
+        self.gamelogic.captiveIsBlack = 0
+        self.gamelogic.captiveIsWhite = 0
         self.gamelogic.turn = Piece.White
 
     def skipTurn(self):
         self.notifyUser("Move Passed")
         self.passcount = self.passcount + 1
-        self.gamelogic.changeturn()
+        self.gamelogic.toggleTurns()
         if self.passcount == 2:
             self.notifyUser("Double turn skipped, game over")
             self.whoIsTheWinner()
