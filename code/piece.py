@@ -1,9 +1,9 @@
 # TODO: Add more functions as needed for your Pieces
-class Piece:
+class Piece(object):
     NoPiece = 0
     White = 1
     Black = 2
-    Status = 0  # default to nopiece
+    Piece = NoPiece  # default to nopiece
     liberties = 0  # default no liberties
     x = -1
     y = -1
