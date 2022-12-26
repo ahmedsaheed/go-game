@@ -309,14 +309,17 @@ class Board(QFrame):
         '''clears pieces from the board'''
         print("Game Reset")
         self.notifyUser("Game Reset")
+        '''clears pieces from the board'''
+        print("Game Reseted")
         self.boardArray = [[Balls(Piece.NoPiece, i, j) for i in range(self.boardWidth)] for j in
                            range(self.boardHeight)]
-        self.gamelogic.whiteprisoners = 0  # set captured to 0
-        self.gamelogic.blackprisoners = 0  # set captured to 0
-        self.gamelogic.whiteterritories = 0  # set territories to 0
-        self.gamelogic.blackterritories = 0  # set territories to 0
-        self.gamelogic.turn = Piece.Black
-        self.playerTurn.emit(self.gamelogic.turn)
+        self.gamelogic.blackprisoners = 0
+        self.gamelogic.whiteprisoners = 0
+        self.gamelogic.turn = Piece.White
+
+
+
+
 
     def skipTurn(self):
         self.notifyUser("Move Passed")
