@@ -66,7 +66,7 @@ class Go(QMainWindow):
             """
         )
         # skip menu
-        skipAction = QAction("Pass", self)
+        skipAction = QAction("Skip Turn", self)
         skipAction.setShortcut("Ctrl+P")  # set shortcut
         passMenu = mainMenu.addAction(skipAction)
         skipAction.triggered.connect(self.click)

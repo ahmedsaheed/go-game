@@ -145,8 +145,8 @@ class Board(QFrame):
         for row in range(0, len(self.boardArray)):
             for col in range(0, len(self.boardArray[0])):
                 painter.save()
-                painter.translate(((self.squareWidth()) * row) + self.squareWidth() * 0.75,
-                                  (self.squareHeight()) * col + self.squareHeight() * 0.75)
+                painter.translate(((self.squareWidth()) * row) + self.squareWidth() * 0.70,
+                                  (self.squareHeight()) * col + self.squareHeight() * 0.70)
                 color = QColor(0, 0, 0)  # set the color is unspecified
 
                 if self.boardArray[col][row].Piece == Piece.NoPiece:
@@ -161,7 +161,7 @@ class Board(QFrame):
                 painter.setPen(color)
                 painter.setBrush(color)
 
-                radius = self.squareWidth() / 4
+                radius = self.squareWidth() / 3
                 center = QPoint(round(radius), round(radius))
 
                 painter.drawEllipse(center, radius, radius)

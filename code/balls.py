@@ -22,25 +22,25 @@ class Balls(object):
     def setLiberties(self, liberties):
         self.liberties = liberties
 
-    def getup(self, boardArray):
+    def getTop(self, boardArray):
         if self.y == 0:
             return None
         else:
             return boardArray[self.y - 1][self.x]
 
-    def getright(self, boardArray):
+    def getRight(self, boardArray):
         if self.x == 6:
             return None
         else:
             return boardArray[self.y][self.x + 1]
 
-    def getleft(self, boardArray):
+    def getLeft(self, boardArray):
         if self.x == 0:
             return None
         else:
             return boardArray[self.y][self.x - 1]
 
-    def getdown(self, boardArray):
+    def getDown(self, boardArray):
         if self.y == 6:
             return None
         else:
