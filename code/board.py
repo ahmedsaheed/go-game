@@ -41,16 +41,9 @@ class Board(QFrame):
         self.printBoardArray()
 
     def printBoardArray(self):
-        # Iteration inside board tuple
-        for row in self.boardArray:
-            for cell in row:
-                if cell.Piece == Piece.NoPiece:
-                    print(" * ", end=" ")
-                if cell.Piece == Piece.Black:
-                    print(" 0 ", end=" ")
-                if cell.Piece == Piece.White:
-                    print(" 1 ", end=" ")
-        print('\n')
+        '''prints the boardArray in an attractive way'''
+        print("boardArray:")
+        print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in self.boardArray]))
 
     def squareWidth(self):
         return self.contentsRect().width() / self.boardWidth
@@ -116,7 +109,7 @@ class Board(QFrame):
 
         self.gamelogic.updateparams(self.boardArray, xp, yp)  # passing parameters to update current variables.
         if self.canWePlaceBallAtChosenPosition():  # if move is not suicide
-            self.placeStone()  # place the stone on the board
+            self.placeBall()  # place the stone on the board
             self.updateTerritoriesAndCaptives()  # update prisoner & territory if any
         self.update()
 
@@ -152,8 +145,8 @@ class Board(QFrame):
         for row in range(0, len(self.boardArray)):
             for col in range(0, len(self.boardArray[0])):
                 painter.save()
-                painter.translate(((self.squareWidth()) * row) + self.squareWidth() / 2,
-                                  (self.squareHeight()) * col + self.squareHeight() / 2)
+                painter.translate(((self.squareWidth()) * row) + self.squareWidth() * 0.75,
+                                  (self.squareHeight()) * col + self.squareHeight() * 0.75)
                 color = QColor(0, 0, 0)  # set the color is unspecified
 
                 if self.boardArray[col][row].Piece == Piece.NoPiece:
@@ -168,7 +161,7 @@ class Board(QFrame):
                 painter.setPen(color)
                 painter.setBrush(color)
 
-                radius = self.squareWidth() / 2
+                radius = self.squareWidth() / 4
                 center = QPoint(round(radius), round(radius))
 
                 painter.drawEllipse(center, radius, radius)
@@ -186,7 +179,7 @@ class Board(QFrame):
             self.notifyUser("Spot Occupied")
             return False
 
-    def placeStone(self):
+    def placeBall(self):
         self.gamelogic.plotTheBalls()  # place the stone on the board
         self.gamelogic.updateLiberty()  # update the liberties
         message = self.gamelogic.updateCaptivesTheSecond()

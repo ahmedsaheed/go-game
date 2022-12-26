@@ -5,11 +5,19 @@ from PyQt6.QtCore import pyqtSlot
 from piece import Piece
 
 
+def passevent():
+    print("Pass clicked")
+
+
 class ScoreBoard(QDockWidget):
 
     def __init__(self):
         super().__init__()
-        self.modal = None
+        self.frm = None
+        self.label_TerritoriesBlack = None
+        self.label_TerritoriesWhite = None
+        self.label_PrisonersWhite = None
+        self.model = None
         self.label_PrisonersBlack = None
         self.timerLeft = None
         self.player_turn = None
@@ -41,21 +49,26 @@ class ScoreBoard(QDockWidget):
         self.label_TerritoriesWhite = QLabel("Territories Taken by White: ")
         col = QColor(Qt.GlobalColor.white)
         self.frm = QFrame(self)
-        self.frm.setStyleSheet("QWidget { background-color: %s }"
+        self.frm.setStyleSheet("QWidget { "
+                               "background-color: %s }"
                                % col.name())
         self.frm.setGeometry(20, 20, 100, 100)
-
         self.mainWidget.setLayout(self.mainLayout)
         self.mainLayout.addWidget(self.instructions)
+        self.mainLayout.addSpacing(70)
         self.mainLayout.addWidget(self.player_turn)
         self.mainLayout.addWidget(self.frm)
-        # self.mainLayout.addWidget(self.passbutton)
+        self.mainLayout.addSpacing(70)
         self.mainLayout.addWidget(self.clicker)
+        self.mainLayout.addSpacing(70)
         self.mainLayout.addWidget(self.timerLeft)
+        self.mainLayout.addSpacing(70)
+        #self.playerStatus= QLabel("Players Status")
         self.mainLayout.addWidget(self.label_PrisonersBlack)
         self.mainLayout.addWidget(self.label_PrisonersWhite)
         self.mainLayout.addWidget(self.label_TerritoriesBlack)
         self.mainLayout.addWidget(self.label_TerritoriesWhite)
+        self.mainLayout.addSpacing(100)
 
         self.setWidget(self.mainWidget)
         self.show()
@@ -90,49 +103,40 @@ class ScoreBoard(QDockWidget):
     # print('slot '+update)
     # self.redraw()
 
-
     def updateturn(self, Piece):
-        if (Piece == 1):
+        if Piece == 1:
             self.player_turn.setText("Current Turn: White")
             self.frm.setStyleSheet("QWidget { background-color: %s }"
                                    % QColor(Qt.GlobalColor.white).name())
-        elif (Piece == 2):
+        elif Piece == 2:
             self.player_turn.setText("Current Turn: Black")
             self.frm.setStyleSheet("QWidget { background-color: %s }"
                                    % QColor(Qt.GlobalColor.black).name())
 
-
     def updatePrisoners(self, n, Player):
-        if (Player == Piece.Black):
+        if Player == Piece.Black:
             update = "Prisoners Taken by Black: " + n
             self.label_PrisonersBlack.setText(update)
 
-        elif (Player == Piece.White):
+        elif Player == Piece.White:
             update = "Prisoners Taken by White: " + n
             self.label_PrisonersWhite.setText(update)
 
-
     def updateTerritories(self, n, Player):
-        if (Player == Piece.Black):
+        if Player == Piece.Black:
             update = "Territories Taken by Black: " + n
             self.label_TerritoriesBlack.setText(update)
 
-        elif (Player == Piece.White):
+        elif Player == Piece.White:
             update = "Territories Taken by White: " + n
             self.label_TerritoriesWhite.setText(update)
-
-
-    def passevent(self):
-        print("Pass clicked")
-
 
     def displaynotification(self, message):
         dialog = QDialog(self)
         dialog.setFixedWidth(300)
 
         dialog.setWindowTitle("Notification")
-        self.modal = QVBoxLayout()
-        self.modal.addWidget(QLabel(message))
-        dialog.setLayout(self.modal)
+        self.model = QVBoxLayout()
+        self.model.addWidget(QLabel(message))
+        dialog.setLayout(self.model)
         dialog.exec()
-
