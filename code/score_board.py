@@ -13,6 +13,7 @@ class ScoreBoard(QDockWidget):
 
     def __init__(self):
         super().__init__()
+        self.label_playerStatus = None
         self.frm = None
         self.label_TerritoriesBlack = None
         self.label_TerritoriesWhite = None
@@ -31,6 +32,7 @@ class ScoreBoard(QDockWidget):
         # Score board init
         self.resize(200, 200)
         self.setFixedWidth(200)
+        self.setFixedHeight(600)
         self.center()
         self.setWindowTitle('ScoreBoard')
         self.mainWidget = QWidget()
@@ -43,6 +45,7 @@ class ScoreBoard(QDockWidget):
         self.player_turn = QLabel("Current Turn: ")
         self.clicker = QLabel("Click Location: ")
         self.timerLeft = QLabel("Time remaining: ")
+        self.label_playerStatus = QLabel("Players Status")
         self.label_PrisonersBlack = QLabel("Prisoners Taken by Black: ")
         self.label_PrisonersWhite = QLabel("Prisoners Taken by White: ")
         self.label_TerritoriesBlack = QLabel("Territories Taken by Black: ")
@@ -58,17 +61,17 @@ class ScoreBoard(QDockWidget):
         self.mainLayout.addSpacing(70)
         self.mainLayout.addWidget(self.player_turn)
         self.mainLayout.addWidget(self.frm)
-        self.mainLayout.addSpacing(70)
+        self.mainLayout.addSpacing(50)
         self.mainLayout.addWidget(self.clicker)
         self.mainLayout.addSpacing(70)
         self.mainLayout.addWidget(self.timerLeft)
         self.mainLayout.addSpacing(70)
-        #self.playerStatus= QLabel("Players Status")
+        self.mainLayout.addWidget(self.label_playerStatus)
         self.mainLayout.addWidget(self.label_PrisonersBlack)
         self.mainLayout.addWidget(self.label_PrisonersWhite)
         self.mainLayout.addWidget(self.label_TerritoriesBlack)
         self.mainLayout.addWidget(self.label_TerritoriesWhite)
-        self.mainLayout.addSpacing(100)
+       # self.mainLayout.addSpacing(100)
 
         self.setWidget(self.mainWidget)
         self.show()
