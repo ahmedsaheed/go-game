@@ -117,7 +117,7 @@ class Board(QFrame):
         """draw all the square on the board"""
         # setting the default colour of the brush
         color = QColor(209, 179, 141)  # yellowish brown
-        # color2 = QColor(196, 164, 132)  # light brown color
+        color2 = QColor(196, 164, 132)  # light brown color
         brush = QBrush(Qt.BrushStyle.SolidPattern)  # calling SolidPattern to a variable
         brush.setColor(color)  # setting color to yellowish brown
         painter.setBrush(brush)
@@ -135,7 +135,7 @@ class Board(QFrame):
 
                 # changing the colour of the brush so that a checkered board is drawn
                 if brush.color() == color:  # if the brush color of square is color
-                    brush.setColor(color)  # set the next color of the square to color2
+                    brush.setColor(color2)  # set the next color of the square to color2
                 else:  # if the brush color of square is color2
                     brush.setColor(color)  # set the next color of the square to color
 
@@ -164,7 +164,7 @@ class Board(QFrame):
                 radius = self.squareWidth() / 4
                 center = QPoint(round(radius), round(radius))
 
-                painter.drawEllipse(center, radius, radius)
+                painter.drawEllipse(center, round(radius), round(radius))
                 painter.restore()
 
     def canWePlaceBallAtChosenPosition(self):
