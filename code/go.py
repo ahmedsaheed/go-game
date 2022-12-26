@@ -24,13 +24,21 @@ class Go(QMainWindow):
     def initUI(self):
         self.board = Board(self)
         self.setCentralWidget(self.board)
-        # self.board.setContentsMargins(10, 10, 10, 10)  # pad the board
+        self.board.setStyleSheet(
+            """
+               
+                 padding:0px;
+                 
+                
+            """
+        )
+       # self.board.setContentsMargins(10, 10, 10, 10)  # pad the board
         self.scoreBoard = ScoreBoard()
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.scoreBoard)
+        # self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.scoreBoard)
         self.scoreBoard.make_connection(self.board)
         self.statusBar = QStatusBar()
         self.setStatusBar(self.statusBar)
-        self.minimumHeight()
         self.resize(850, 850)
         self.setMinimumWidth(750)
         self.setMinimumHeight(650)
@@ -56,18 +64,19 @@ class Go(QMainWindow):
             """
                  width: 100%; 
                  padding:10px;
+                 padding-left:130px;
                  text-align: center; 
                  font-size: 15px;
                  font-family:Lucida Sans;
-                 background: #D3D3D3;
-                 border: 1px solid
+                 background: #f5f3f0;
+                
                } 
                helpMenu
             """
         )
         # skip menu
         skipAction = QAction("Skip Turn", self)
-        skipAction.setShortcut("Ctrl+P")  # set shortcut
+        skipAction.setShortcut("Ctrl+S")  # set shortcut
         passMenu = mainMenu.addAction(skipAction)
         skipAction.triggered.connect(self.click)
 
@@ -103,17 +112,17 @@ class Go(QMainWindow):
             "<p><strong>How to play go</strong></p> "
             "<p><strong>Rules: </strong></p>"
             "<p>A game of Go starts with an empty board. Each player has an effectively unlimited supply of pieces ("
-            "called stones), one taking the black stones, the other taking white. The main object of the game is to "
-            "use your stones to form territories by surrounding vacant areas of the board. It is also possible to "
-            "capture your opponent's stones by completely surrounding them..</p> "
+            "called balls), one taking the black piece, the other taking white. The main object of the game is to "
+            "use your pieces to form territories by surrounding vacant areas of the board. It is also possible to "
+            "capture your opponent's pieces by completely surrounding them..</p> "
 
-            "<p>Players take turns, placing one of their stones on a vacant point at each turn, with Black playing "
-            "first. Note that stones are placed on the intersections of the lines rather than in the squares and once "
-            "played stones are not moved. However they may be captured, in which case they are removed from the "
+            "<p>Players take turns, placing one of their pieces on a vacant point at each turn, with Black playing "
+            "first. Note that piece are placed on the intersections of the lines rather than in the squares and once "
+            "played pieces are not moved. However they may be captured, in which case they are removed from the "
             "board, and kept by the capturing player as prisoners.</p> "
 
             "<br><strong> press ( Ctrl + E ) to Exit <br>"
-            "<br><strong> press ( Ctrl + P ) to Skip Turn <br>"
+            "<br><strong> press ( Ctrl + S ) to Skip Turn <br>"
             "<br><strong> press ( Ctrl + R ) or Reset <br>"
 
         )
@@ -135,7 +144,7 @@ class Go(QMainWindow):
 
     # click method for pass
     def click(self):
-        if self.getBoard().changeturn():  # link to board to count passcount and change turn
+        if self.getBoard().changeturn():  # link to board to change turn
             self.close()
         self.update()
 

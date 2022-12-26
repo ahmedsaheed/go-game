@@ -31,16 +31,32 @@ class ScoreBoard(QDockWidget):
     def initUI(self):
         # Score board init
         self.resize(200, 200)
-        self.setFixedWidth(200)
-        self.setFixedHeight(600)
+        self.setFixedWidth(250)
+        self.setFixedHeight(778)
         self.center()
         self.setWindowTitle('ScoreBoard')
         self.mainWidget = QWidget()
         self.mainLayout = QVBoxLayout()
 
+        self.mainWidget.setStyleSheet(
+            """
+                 width: 100%; 
+                 padding:10px;
+                 text-align: center; 
+                 font-size: 12px;
+                 font-family:Lucida Sans;
+                 background: #f5f3f0;
+                 
+                
+                
+               } 
+               helpMenu
+            """
+        )
+
         # create two labels which will be updated by signals
         self.instructions = QLabel("Instructions\n 1. Click any where to place"
-                                   "\n a stone \n 2. Press P to pass a turn \n 3. Press R to reset the Game")
+                                   "\n a piece \n 2. Press P to pass a turn \n 3. Press R to reset the Game")
 
         self.player_turn = QLabel("Current Turn: ")
         self.clicker = QLabel("Click Location: ")
@@ -71,7 +87,7 @@ class ScoreBoard(QDockWidget):
         self.mainLayout.addWidget(self.label_PrisonersWhite)
         self.mainLayout.addWidget(self.label_TerritoriesBlack)
         self.mainLayout.addWidget(self.label_TerritoriesWhite)
-       # self.mainLayout.addSpacing(100)
+        # self.mainLayout.addSpacing(100)
 
         self.setWidget(self.mainWidget)
         self.show()
