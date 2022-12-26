@@ -45,7 +45,7 @@ class ScoreBoard(QDockWidget):
                  text-align: center; 
                  font-size: 12px;
                  font-family:Lucida Sans;
-                 background: #f5f3f0;
+                 
                  
                 
                 
