@@ -301,10 +301,6 @@ class Board(QFrame):
         self.gamelogic.whiteprisoners = 0
         self.gamelogic.turn = Piece.White
 
-
-
-
-
     def skipTurn(self):
         self.notifyUser("Move Passed")
         self.passcount = self.passcount + 1
