@@ -26,16 +26,11 @@ class Go(QMainWindow):
         self.setCentralWidget(self.board)
         self.board.setStyleSheet(
             """
-               
-                 padding:0px;
-                 
-                
+                 padding:0px;  
             """
         )
-       # self.board.setContentsMargins(10, 10, 10, 10)  # pad the board
         self.scoreBoard = ScoreBoard()
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.scoreBoard)
-        # self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.scoreBoard)
         self.scoreBoard.make_connection(self.board)
         self.statusBar = QStatusBar()
         self.setStatusBar(self.statusBar)
@@ -57,9 +52,7 @@ class Go(QMainWindow):
         size = self.geometry()
 
     def menu(self):
-        # set up menus
-        mainMenu = self.menuBar()  # create and a menu bar
-        # main menu stylesheet
+        mainMenu = self.menuBar()  
         mainMenu.setStyleSheet(
             """
                  width: 100%; 
@@ -137,14 +130,12 @@ class Go(QMainWindow):
         msg.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg.show()
 
-        # exit function
-
     def exit(self):
         QtCore.QCoreApplication.quit()
 
     # click method for pass
     def click(self):
-        if self.getBoard().changeturn():  # link to board to change turn
+        if self.getBoard().changeturn():  
             self.close()
         self.update()
 
